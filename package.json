@@ -1,0 +1,10 @@
+{
+  "name": "assman",
+  "version": "0.1.0",
+  "dependencies": {
+    "glob": "3.1.x",
+    "coffee-script": "1.6.x",
+    "stylus": "0.32.x",
+    "nib": "0.9.x"
+  }
+}
