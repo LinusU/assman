@@ -3,8 +3,11 @@ fs = require 'fs'
 nib = require 'nib'
 path = require 'path'
 glob = require 'glob'
+jade = require 'jade'
 stylus = require 'stylus'
 coffee = require 'coffee-script'
+
+assman = require './assman'
 
 handleAsset = (res, asset, cb) ->
 
@@ -19,6 +22,7 @@ handleAsset = (res, asset, cb) ->
   switch m[0]
     when '.js' then fs.readFile asset, done
     when '.css' then fs.readFile asset, done
+    when '.html' then fs.readFile asset, done
     when '.styl'
       fs.readFile asset, (err, data) ->
         if err then done err else
@@ -29,6 +33,14 @@ handleAsset = (res, asset, cb) ->
             .use(nib())
             .import('nib')
             .render(done)
+    when '.jade'
+      fs.readFile asset, (err, data) ->
+        if err then done err else
+          try
+            fn = jade.compile data.toString(), { pretty: (assman._state.mode is 'development') }
+            done null, fn()
+          catch e
+            done e
     when '.coffee'
       fs.readFile asset, (err, data) ->
         if err then done err else
@@ -63,6 +75,7 @@ module.exports = exports = (res, type, assets) ->
   switch type
     when 'js' then res.setHeader 'Content-Type', 'text/javascript'
     when 'css' then res.setHeader 'Content-Type', 'text/css'
+    when 'html' then res.setHeader 'Content-Type', 'text/html'
     else throw new Error "Unknown type (#{type})"
 
   expandAssets assets, (err, assets) ->
