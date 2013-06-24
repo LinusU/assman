@@ -22,6 +22,9 @@ handleAsset = (res, asset, cb) ->
   switch m[0]
     when '.js' then fs.readFile asset, done
     when '.css' then fs.readFile asset, done
+    when '.png' then fs.readFile asset, done
+    when '.gif' then fs.readFile asset, done
+    when '.jpg' then fs.readFile asset, done
     when '.html' then fs.readFile asset, done
     when '.styl'
       fs.readFile asset, (err, data) ->
@@ -76,6 +79,9 @@ module.exports = exports = (res, type, assets) ->
     when 'js' then res.setHeader 'Content-Type', 'text/javascript'
     when 'css' then res.setHeader 'Content-Type', 'text/css'
     when 'html' then res.setHeader 'Content-Type', 'text/html'
+    when 'png' then res.setHeader 'Content-Type', 'image/png'
+    when 'gif' then res.setHeader 'Content-Type', 'image/gif'
+    when 'jpg' then res.setHeader 'Content-Type', 'image/jpeg'
     else throw new Error "Unknown type (#{type})"
 
   expandAssets assets, (err, assets) ->
