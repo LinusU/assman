@@ -25,6 +25,7 @@ handleAsset = (res, asset, cb) ->
     when '.png' then fs.readFile asset, done
     when '.gif' then fs.readFile asset, done
     when '.jpg' then fs.readFile asset, done
+    when '.svg' then fs.readFile asset, done
     when '.html' then fs.readFile asset, done
     when '.styl'
       fs.readFile asset, (err, data) ->
@@ -82,6 +83,7 @@ module.exports = exports = (res, type, assets) ->
     when 'png' then res.setHeader 'Content-Type', 'image/png'
     when 'gif' then res.setHeader 'Content-Type', 'image/gif'
     when 'jpg' then res.setHeader 'Content-Type', 'image/jpeg'
+    when 'svg' then res.setHeader 'Content-Type', 'image/svg+xml'
     else throw new Error "Unknown type (#{type})"
 
   expandAssets assets, (err, assets) ->
